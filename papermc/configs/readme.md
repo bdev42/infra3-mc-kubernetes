@@ -12,3 +12,6 @@ These folders can be mounted (via `-v`) during `docker run` to `/serverconfig`, 
 to the actual working directory `/paper`, and overwrite any files already present there _(from the base-config the image was built with)_,
 this allows you to easily reconfigure the containers in different ways without having to build different images.
 
+# NOTE: By using any of these example configurations you agree to the Minecraft EULA (see https://aka.ms/MinecraftEULA)
+To disagree you can set the eula field back to false in the eula.txt file, but you will not be able to start the server. 
+
