@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  labels:
+    app: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+      - name: proxy-server
+        image: localhost:5000/velocity
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: proxy-port
+          containerPort: 25577
+        volumeMounts:
+        - mountPath: /proxyconfig
+          name: config-volume
+          readOnly: true
+      volumes:
+      - name: config-volume
+        hostPath:
+          path: /velocity/configs/proxy
+          type: Directory
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lobby-pod
+  labels:
+    app: lobby
+spec:
+  containers:
+  - name: lobby-server
+    image: localhost:5000/papermc
+    imagePullPolicy: IfNotPresent
+    ports:
+    - name: backend-port
+      containerPort: 25565
+    volumeMounts:
+    - mountPath: /serverconfig
+      name: config-volume
+      readOnly: true
+  volumes:
+  - name: config-volume
+    hostPath:
+      path: /papermc/configs/lobby
+      type: Directory
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: survival-pod
+  labels:
+    app: survival
+spec:
+  containers:
+  - name: survival-server
+    image: localhost:5000/papermc
+    imagePullPolicy: IfNotPresent
+    ports:
+    - name: backend-port
+      containerPort: 25565
+    volumeMounts:
+    - mountPath: /serverconfig
+      name: config-volume
+      readOnly: true
+  volumes:
+  - name: config-volume
+    hostPath:
+      path: /papermc/configs/survival
+      type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lobby-server
+spec:
+  type: ClusterIP
+  clusterIP: "None"
+  selector:
+    app: lobby
+  ports:
+  - name: lobby-tcp
+    protocol: TCP
+    port: 25565
+    targetPort: backend-port
+  - name: lobby-udp
+    protocol: UDP
+    port: 25565
+    targetPort: backend-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: survival-server
+spec:
+  type: ClusterIP
+  clusterIP: "None"
+  selector:
+    app: survival
+  ports:
+  - name: survival-tcp
+    protocol: TCP
+    port: 25565
+    targetPort: backend-port
+  - name: survival-udp
+    protocol: UDP
+    port: 25565
+    targetPort: backend-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: proxy
+  ports:
+  - name: proxy-tcp
+    protocol: TCP
+    port: 25565
+    targetPort: proxy-port
+  - name: proxy-udp
+    protocol: UDP
+    port: 25565
+    targetPort: proxy-port
+

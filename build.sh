@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #----------------------------------------------------------------------------------------
-#- Name:	build.sh
-#- Author:	Boldi Olajos
-#- Function:	Builds the velocity and papermc images and puts them in a local registry
-#- Usage:	./build.sh [-h|-p|-r]
+#- Name:	    build.sh
+#- Author:	    Boldi Olajos
+#- Function:    Builds the velocity and papermc images and puts them in a local registry
+#- Usage:	    ./build.sh [-h|-p|-r]
 #----------------------------------------------------------------------------------------
 
 regport=5000 # local registry's port number
