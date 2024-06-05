@@ -1,20 +1,20 @@
 services:
   proxy-server:
-    image: velocity
+    image: localhost:5000/velocity
     ports:
       - "25565:25577/tcp"
       - "25565:25577/udp"
     volumes:
       - ./velocity/configs/proxy:/proxyconfig
   lobby-server:
-    image: papermc
+    image: localhost:5000/papermc
     expose:
       - "25565/tcp"
       - "25565/udp"
     volumes:
       - ./papermc/configs/lobby:/serverconfig
   survival-server:
-    image: papermc
+    image: localhost:5000/papermc
     expose:
       - "25565/tcp"
       - "25565/udp"
