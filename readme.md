@@ -81,7 +81,7 @@ You can easily remove the resources afterward, if you wish to keep the save data
 docker compose down -v
 ```
 ### Kubernetes (minikube)
-This is the main deployment target, the deploy script will call the build script for you, so there is no need to run anything else, simply start the build script:
+This is the main deployment target, the deploy script will call the build script for you, so there is no need to run anything else, simply start the deploy script:
 ```sh
 ./deploy-minikube.sh
 ```
@@ -116,13 +116,13 @@ kubectl delete -f kubernetes.yml
 | 2+ application(s)(components) in at least 2 separate containers | 8 points  | ✅   | velocity & paper                          |
 | Automated deployment with bash scripts.                         | 2 points  | ✅   | ./deploy-minikube.sh                      |
 | Extra points can be obtained with:                              |           |     |                                           |
-| With secure communication, e.g. https                           | +1 point  | ✅   | [[#Proxies and security]]                 |
+| With secure communication, e.g. https                           | +1 point  | ✅   | [[readme#Proxies and security]]           |
 | Using own container registry                                    | +1 point  | ✅   | ./build.sh pushes to local registry       |
 | Use dedicated network local<br><br>(implicit when using k8s)    | +1 point  | ✅   | Both k8s and dc create dedicated network. |
 | Using local volume or cloud storage (buckets)                   | +1 point  | WIP | dc uses volumes for save data, k8s wip    |
 | With one of following 3 deployment options                      |           |     |                                           |
-| - Well working in Docker Compose                                | +1 point  | ✅   | [[#Docker Compose]]                       |
+| - Well working in Docker Compose                                | +1 point  | ✅   | [[readme#Docker Compose]]                 |
 | - Serverless with Cloud Run                                     | +3 points | -   |                                           |
-| - Well working in Kubernetes                                    | +4 point  | ✅   | [[#Kubernetes (minikube)]]                |
+| - Well working in Kubernetes                                    | +4 point  | ✅   | [[readme#Kubernetes (minikube)]]          |
 | Extra challenge through research                                |           |     |                                           |
 | Use of Terraform for automated deployments                      | +2 points | -   |                                           |
