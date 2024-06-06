@@ -87,11 +87,42 @@ This is the main deployment target, the deploy script will call the build script
 ```
 _**Please Note:** docker, kubectl and minikube are all required, you must also run in the project root._
 
+You will also need to have the **minikube load balancer** running to properly expose the service:
+```sh
+minikube tunnel
+```
 #### Design Choices
+![Kubernetes Cluster Overview](./images/kubernetes.png)
+##### Scaling
+As you can see on the diagram above, scaling via kubernetes is only possible for the proxy servers, the backend game servers must be manually scaled by changing the configuration. I will explain here the multiple reasons why this is the case.
 
+While the proxy servers have no persistent data, the backend game servers will almost certainly need to persist data such as the game saves/worlds. Because these game servers are **stateful** we cannot simply auto-balance between multiple instances, each server instance **could have unique data**, therefore the **players do care which server they are on**! This means the proxy has to know the exact instances it is to connect to, there cannot be an intermediate layer, which is only possible using static configuration files!
 
+Proxy servers on the other hand are **not stateful**, their temporary data only needs to persist as long as each connection itself. This means they can be easily scaled, for this purpose I have placed them in their own deployment where the replica set can be easily scaled. In addition the service that exposes these replicas uses the ***LoadBalancer*** type, which will use the implementation specific load balancer to automatically spread out players between the different proxy instances.
+
+> As the diagram also indicates, the **Load Balancer** is not a part of the kubernetes cluster, it is implementation dependent, in **minikube** this is started by running the `minikube tunnel` command.
+###### How manual scaling works
+If, let's say, we have too many players that wish to play the survival gamemode at the same time, we would have to configure and create a new instance based on the same configuration, but it will still operate on a different save, so we would configure these two survival instances as two separate servers for the proxy e.g. survival1 and survival2 in the proxy config, then the players can decide which survival instance they wish to play on. This effectively doubles the maximum players that can play survival, but doesn't change the number of players that can play on a single world at the same time.
 #### Cleanup
 You can remove the resources by running the following command:
 ```sh
 kubectl delete -f kubernetes.yml
 ```
+
+## Requirements
+
+| Minimum criteria                                                | Rating    |     | Explanation                               |
+| --------------------------------------------------------------- | --------- | --- | ----------------------------------------- |
+| 2+ application(s)(components) in at least 2 separate containers | 8 points  | ✅   | velocity & paper                          |
+| Automated deployment with bash scripts.                         | 2 points  | ✅   | ./deploy-minikube.sh                      |
+| Extra points can be obtained with:                              |           |     |                                           |
+| With secure communication, e.g. https                           | +1 point  | ✅   | [[#Proxies and security]]                 |
+| Using own container registry                                    | +1 point  | ✅   | ./build.sh pushes to local registry       |
+| Use dedicated network local<br><br>(implicit when using k8s)    | +1 point  | ✅   | Both k8s and dc create dedicated network. |
+| Using local volume or cloud storage (buckets)                   | +1 point  | WIP | dc uses volumes for save data, k8s wip    |
+| With one of following 3 deployment options                      |           |     |                                           |
+| - Well working in Docker Compose                                | +1 point  | ✅   | [[#Docker Compose]]                       |
+| - Serverless with Cloud Run                                     | +3 points | -   |                                           |
+| - Well working in Kubernetes                                    | +4 point  | ✅   | [[#Kubernetes (minikube)]]                |
+| Extra challenge through research                                |           |     |                                           |
+| Use of Terraform for automated deployments                      | +2 points | -   |                                           |
