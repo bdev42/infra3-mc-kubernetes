@@ -13,6 +13,7 @@ services:
       - "25565/udp"
     volumes:
       - ./papermc/configs/lobby:/serverconfig
+      - lobby_world:/paper/world
   survival-server:
     image: localhost:5000/papermc
     expose:
@@ -20,4 +21,10 @@ services:
       - "25565/udp"
     volumes:
       - ./papermc/configs/survival:/serverconfig
+      - survival_world:/paper/world
+      - survival_nether:/paper/world_nether
+volumes:
+  lobby_world:
+  survival_world:
+  survival_nether:
 
