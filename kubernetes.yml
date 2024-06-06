@@ -28,7 +28,7 @@ spec:
       volumes:
       - name: config-volume
         hostPath:
-          path: /configs/proxy
+          path: /configs/velocity/proxy
           type: Directory
 ---
 apiVersion: v1
@@ -49,11 +49,27 @@ spec:
     - mountPath: /serverconfig
       name: config-volume
       readOnly: true
+    - mountPath: /paper/world
+      name: lobby-world
   volumes:
   - name: config-volume
     hostPath:
-      path: /configs/lobby
+      path: /configs/papermc/lobby
       type: Directory
+  - name: lobby-world
+    persistentVolumeClaim:
+      claimName: pvc-lobby-world
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-lobby-world
+spec:
+  accessModes:
+  - ReadWriteOncePod
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Pod
@@ -73,11 +89,43 @@ spec:
     - mountPath: /serverconfig
       name: config-volume
       readOnly: true
+    - mountPath: /paper/world
+      name: survival-world
+    - mountPath: /paper/world_nether
+      name: survival-nether
   volumes:
   - name: config-volume
     hostPath:
-      path: /configs/survival
+      path: /configs/papermc/survival
       type: Directory
+  - name: survival-world
+    persistentVolumeClaim:
+      claimName: pvc-survival-world
+  - name: survival-nether
+    persistentVolumeClaim:
+      claimName: pvc-survival-nether
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-survival-world
+spec:
+  accessModes:
+  - ReadWriteOncePod
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-survival-nether
+spec:
+  accessModes:
+  - ReadWriteOncePod
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Service

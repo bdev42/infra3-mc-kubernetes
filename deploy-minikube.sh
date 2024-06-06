@@ -89,11 +89,15 @@ else
 fi
 
 echo -e "$info: Uploading config volumes to kubernetes host (minikube container)..."
-
-if docker container cp ./papermc/configs minikube:/configs && docker container cp ./velocity/configs minikube:/configs; then
-    echo -e "$info: upload success"
+if docker container exec minikube /bin/sh -c 'rm -rf /configs && mkdir /configs'; then
+    if docker container cp ./papermc/configs minikube:/configs/papermc && docker container cp ./velocity/configs minikube:/configs/velocity; then
+        echo -e "$info: upload success"
+    else
+        echo -e "$error: Failed to upload configs to minikube" >&2
+        exit 1
+    fi
 else
-    echo -e "$error: Failed to upload configs to minikube" >&2
+    echo -e "$error: Failed to remove previous configs"
     exit 1
 fi
 

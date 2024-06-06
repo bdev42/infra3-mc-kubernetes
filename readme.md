@@ -111,18 +111,18 @@ kubectl delete -f kubernetes.yml
 
 ## Requirements
 
-| Minimum criteria                                                | Rating    |     | Explanation                               |
-| --------------------------------------------------------------- | --------- | --- | ----------------------------------------- |
-| 2+ application(s)(components) in at least 2 separate containers | 8 points  | ✅   | velocity & paper                          |
-| Automated deployment with bash scripts.                         | 2 points  | ✅   | ./deploy-minikube.sh                      |
-| Extra points can be obtained with:                              |           |     |                                           |
-| With secure communication, e.g. https                           | +1 point  | ✅   | [[readme#Proxies and security]]           |
-| Using own container registry                                    | +1 point  | ✅   | ./build.sh pushes to local registry       |
-| Use dedicated network local<br><br>(implicit when using k8s)    | +1 point  | ✅   | Both k8s and dc create dedicated network. |
-| Using local volume or cloud storage (buckets)                   | +1 point  | WIP | dc uses volumes for save data, k8s wip    |
-| With one of following 3 deployment options                      |           |     |                                           |
-| - Well working in Docker Compose                                | +1 point  | ✅   | [[readme#Docker Compose]]                 |
-| - Serverless with Cloud Run                                     | +3 points | -   |                                           |
-| - Well working in Kubernetes                                    | +4 point  | ✅   | [[readme#Kubernetes (minikube)]]          |
-| Extra challenge through research                                |           |     |                                           |
-| Use of Terraform for automated deployments                      | +2 points | -   |                                           |
+| Minimum criteria                                                | Rating    |     | Explanation                                                                             |
+| --------------------------------------------------------------- | --------- | --- | --------------------------------------------------------------------------------------- |
+| 2+ application(s)(components) in at least 2 separate containers | 8 points  | ✅   | velocity & paper                                                                        |
+| Automated deployment with bash scripts.                         | 2 points  | ✅   | ./deploy-minikube.sh                                                                    |
+| Extra points can be obtained with:                              |           |     |                                                                                         |
+| With secure communication, e.g. https                           | +1 point  | ✅   | [[readme#Proxies and security]]                                                         |
+| Using own container registry                                    | +1 point  | ✅   | ./build.sh pushes to local registry                                                     |
+| Use dedicated network local<br><br>(implicit when using k8s)    | +1 point  | ✅   | Both k8s and dc create dedicated network.                                               |
+| Using local volume or cloud storage (buckets)                   | +1 point  | ✅   | dc uses volumes for save data, k8s uses dynamic provisioning with persistenvolumeclaims |
+| With one of following 3 deployment options                      |           |     |                                                                                         |
+| - Well working in Docker Compose                                | +1 point  | ✅   | [[readme#Docker Compose]]                                                               |
+| - Serverless with Cloud Run                                     | +3 points | -   |                                                                                         |
+| - Well working in Kubernetes                                    | +4 point  | ✅   | [[readme#Kubernetes (minikube)]]                                                        |
+| Extra challenge through research                                |           |     |                                                                                         |
+| Use of Terraform for automated deployments                      | +2 points | -   |                                                                                         |
