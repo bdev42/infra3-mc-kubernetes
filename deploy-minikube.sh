@@ -80,12 +80,22 @@ if [[ "$change_memory" == "1" || "$change_cpus" == "1" ]]; then
 fi
 
 echo -e "\n$info: Uploading images to minikube..."
-minikube image load localhost:5000/papermc
-minikube image load localhost:5000/velocity
+
+if minikube image load localhost:5000/papermc && minikube image load localhost:5000/velocity; then
+    echo -e "$info: upload success"
+else
+    echo -e "$error: Failed to upload images to minikube" >&2
+    exit 1
+fi
 
 echo -e "$info: Uploading config volumes to kubernetes host (minikube container)..."
-docker container cp ./papermc minikube:/papermc
-docker container cp ./velocity minikube:/velocity
+
+if docker container cp ./papermc/configs minikube:/configs && docker container cp ./velocity/configs minikube:/configs; then
+    echo -e "$info: upload success"
+else
+    echo -e "$error: Failed to upload configs to minikube" >&2
+    exit 1
+fi
 
 echo -e "\n$info: Redeploying cluster..."
 kubectl delete -f kubernetes.yml
@@ -97,7 +107,7 @@ if [[ $? ]]; then
     echo -e "Run \e[32mminikube tunnel\e[0m to publish the proxy service on port 25565, (minecraft will then be able to connect to localhost)."
     exit 0
 else
-    echo -e "\n\e[31mDEPLOY FAILED\e[0m\n"
+    echo -e "\n\e[31mDEPLOY FAILED\e[0m\n" >&2
     exit 1
 fi
 

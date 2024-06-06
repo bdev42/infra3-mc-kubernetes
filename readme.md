@@ -4,9 +4,9 @@
 This document aims to provide a comprehensive overview of the project,  
 as well as explain the design choices made. The requirements can be found [here](https://docs.google.com/document/d/1iHbbnzF8yV0_AoWtJk3uStr7HuQtaM4TLDj6L7C1xYc).  
 
-> In quote blocks like this one, additional notes and background information are included that are not strictly necessary to understand the system.
-
 _This document should be considered as the "PDF", since there is no Canvas submission._
+
+> In quote blocks like this one, additional notes and background information are included that are not strictly necessary to understand the system.
 ### Application Components
 For this project I decided to build a **_minecraft server network_**/cluster, this consists of two components:
 - two or more minecraft servers (the game servers)

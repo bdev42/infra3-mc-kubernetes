@@ -28,7 +28,7 @@ spec:
       volumes:
       - name: config-volume
         hostPath:
-          path: /velocity/configs/proxy
+          path: /configs/proxy
           type: Directory
 ---
 apiVersion: v1
@@ -52,7 +52,7 @@ spec:
   volumes:
   - name: config-volume
     hostPath:
-      path: /papermc/configs/lobby
+      path: /configs/lobby
       type: Directory
 ---
 apiVersion: v1
@@ -76,7 +76,7 @@ spec:
   volumes:
   - name: config-volume
     hostPath:
-      path: /papermc/configs/survival
+      path: /configs/survival
       type: Directory
 ---
 apiVersion: v1
