@@ -1,4 +1,4 @@
-# Infra 3 - Project T4 [Boldizsár Olajos]
+# Infrastructure 3 - Project Term 4 [ARCHIVED]
 
 ## Introduction
 This document aims to provide a comprehensive overview of the project,  
